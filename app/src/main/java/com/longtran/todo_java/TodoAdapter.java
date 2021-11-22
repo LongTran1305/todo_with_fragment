@@ -1,7 +1,9 @@
 package com.longtran.todo_java;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,11 @@ import java.util.List;
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     private List<TodoModel> todoModelList;
-    private MainActivity activity;
+    private Activity activity;
     private TodoHelper db ;
 
 
-    public TodoAdapter (TodoHelper db,MainActivity activity){
+    public TodoAdapter (TodoHelper db,Activity activity){
         this.activity = activity;
         this.db = db;
     }
@@ -38,6 +40,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         holder.todoItemBinding.tvTitle.setText(todo.getTitle());
         if(todo.getIsChecked() == 1){
             holder.todoItemBinding.tvTitle.setPaintFlags(holder.todoItemBinding.tvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.todoItemBinding.tvTitle.setTypeface(null, Typeface.ITALIC);
         }
         holder.todoItemBinding.checkBox.setChecked(toBoolean(todo.getIsChecked()));
         holder.todoItemBinding.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -46,9 +49,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                 if(isChecked){
                     db.updateIsChecked(todo.getId(),1);
                     holder.todoItemBinding.tvTitle.setPaintFlags(holder.todoItemBinding.tvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.todoItemBinding.tvTitle.setTypeface(null, Typeface.ITALIC);
                 }else{
                     db.updateIsChecked(todo.getId(),0);
                     holder.todoItemBinding.tvTitle.setPaintFlags(holder.todoItemBinding.tvTitle.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.todoItemBinding.tvTitle.setTypeface(null, Typeface.NORMAL);
                 }
             }
         });

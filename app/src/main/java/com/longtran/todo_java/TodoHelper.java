@@ -74,4 +74,57 @@ public class TodoHelper extends SQLiteOpenHelper {
         }
         return todoList;
     }
+
+    public List<TodoModel> getTodoChecked(){
+        db =this.getWritableDatabase();
+        String where = COLUMN_3 + "=1";
+        Cursor cursor = null;
+        List<TodoModel> todoList = new ArrayList<>();
+        db.beginTransaction();
+        try{
+            cursor = db.query(TABLE_NAME,null,where,null,null,null,null);
+            if(cursor != null){
+                if(cursor.moveToFirst()){
+                    do{
+                        TodoModel todo = new TodoModel();
+                        todo.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_1)));
+                        todo.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_2)));
+                        todo.setIsChecked(cursor.getInt(cursor.getColumnIndex(COLUMN_3)));
+                        todoList.add(todo);
+                    }while (cursor.moveToNext());
+                }
+            }
+        }finally {
+            db.endTransaction();
+            cursor.close();
+        }
+        return todoList;
+    }
+
+    public List<TodoModel> getTodoUnchecked(){
+        db =this.getWritableDatabase();
+        String where = COLUMN_3 + "=0";
+        Cursor cursor = null;
+        List<TodoModel> todoList = new ArrayList<>();
+        db.beginTransaction();
+        try{
+            cursor = db.query(TABLE_NAME,null,where,null,null,null,null);
+            if(cursor != null){
+                if(cursor.moveToFirst()){
+                    do{
+                        TodoModel todo = new TodoModel();
+                        todo.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_1)));
+                        todo.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_2)));
+                        todo.setIsChecked(cursor.getInt(cursor.getColumnIndex(COLUMN_3)));
+                        todoList.add(todo);
+                    }while (cursor.moveToNext());
+                }
+            }
+        }finally {
+            db.endTransaction();
+            cursor.close();
+        }
+        return todoList;
+    }
+
 }
