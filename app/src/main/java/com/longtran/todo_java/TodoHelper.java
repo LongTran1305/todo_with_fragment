@@ -14,6 +14,7 @@ import java.util.List;
 public class TodoHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "TODO_DATABASE";
     private static final String TABLE_NAME = "TODO_TABLE";
     private static final String COLUMN_1 = "ID";
@@ -21,7 +22,7 @@ public class TodoHelper extends SQLiteOpenHelper {
     private static final String COLUMN_3 = "IS_CHECKED";
 
     public TodoHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
